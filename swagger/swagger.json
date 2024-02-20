@@ -1,0 +1,407 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": " Input data either normal `without encryption` or secure `encrypted`,isEncoded : 1 to show encryption for input data { default: 0} - To send normal input use parameters provided with each and every api, - To send encrypted input use data parameter with encrypted value of all parameters provided with each and every api. ",
+        "version": "2.0.1",
+        "title": " Assignment ",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.xyz.com/",
+            "email": "pappukumar2190@gmail.com"
+        }
+    },
+    "host": "localhost:4200/",
+    "tags": [{
+            "name": "Common API",
+            "description": "All app authentication related action.",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        },
+        {
+            "name": "Booking API",
+            "description": "All app Booking related action.",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Find out more about booking system ",
+        "url": "http://xyz.com"
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/get-api-token": {
+            "get": {
+                "tags": [
+                    "Common API"
+                ],
+                "summary": "Get API Token",
+                "description": "Get API Token.",
+                "operationId": "get-api-token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": {
+                    "$ref": "#/definitions/produces"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/get-api-tokenResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "schema": {
+                            "$ref": "#/definitions/parameters/commonError"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/free-slots": {
+            "get": {
+                "tags": [
+                    "Booking API"
+                ],
+                "summary": "Get free time slots",
+                "description": "Get free time slots.",
+                "operationId": "free-slots",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": {
+                    "$ref": "#/definitions/produces"
+                },
+                "parameters": [{
+                        "$ref": "#/definitions/parameters/apiToken"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/platform"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/version"
+                    },
+                    {
+                        "in": "query",
+                        "name": "date",
+                        "description": "Enter booking date (dd-mm-yyyy).",
+                        "required": true,
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "(?:(?:31(\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"
+                    },
+                    {
+                        "in": "query",
+                        "name": "timezone",
+                        "description": "Enter local time zone.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/free-slotsResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "schema": {
+                            "$ref": "#/definitions/parameters/commonError"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/create-event": {
+            "post": {
+                "tags": [
+                    "Booking API"
+                ],
+                "summary": "Create Event",
+                "description": "Book Appointment.",
+                "operationId": "create-event",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": {
+                    "$ref": "#/definitions/produces"
+                },
+                "parameters": [{
+                        "$ref": "#/definitions/parameters/apiToken"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/platform"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/version"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "datetime",
+                        "description": "Enter booking date (in timestamp).",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "formData",
+                        "name": "duration",
+                        "description": "Enter total time duration(multiply of time slots).",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/create-eventResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "schema": {
+                            "$ref": "#/definitions/parameters/commonError"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/get-events": {
+            "get": {
+                "tags": [
+                    "Booking API"
+                ],
+                "summary": "Get all events",
+                "description": "Get all booked event date wise.",
+                "operationId": "get-events",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": {
+                    "$ref": "#/definitions/produces"
+                },
+                "parameters": [{
+                        "$ref": "#/definitions/parameters/apiToken"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/platform"
+                    },
+                    {
+                        "$ref": "#/definitions/parameters/version"
+                    },
+                    {
+                        "in": "query",
+                        "name": "startDate",
+                        "description": "Enter Start date (dd-mm-yyyy).",
+                        "required": true,
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "(?:(?:31(\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"
+                    },
+                    {
+                        "in": "query",
+                        "name": "endDate",
+                        "description": "Enter End date (dd-mm-yyyy).",
+                        "required": true,
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "(?:(?:31(\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/get-eventsResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "schema": {
+                            "$ref": "#/definitions/parameters/commonError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "produces": [
+            "application/json",
+            "application/xml",
+            "text/html"
+        ],
+        "parameters": {
+            "apiToken": {
+                "in": "header",
+                "name": "api_token",
+                "description": "API Token",
+                "required": true,
+                "type": "string"
+            },
+            "platform": {
+                "in": "header",
+                "name": "platform",
+                "description": "Request API Platform",
+                "required": true,
+                "type": "string",
+                "default": "ios"
+            },
+            "version": {
+                "in": "header",
+                "name": "version",
+                "description": "Mobile APP Version",
+                "required": true,
+                "type": "string",
+                "default": "1.0.0"
+            },
+            "commonError": {
+                "in": "body",
+                "name": "commomError",
+                "description": "commonError",
+                "type": "object",
+                "example": {
+                    "status": false,
+                    "msg": "Unauthorized access.",
+                    "res": null,
+                    "errors": [
+                        "Please insert api token.",
+                        "Please insert source request platform.",
+                        "Please enter valid source request platform.",
+                        "Please insert mobile app version."
+                    ]
+                },
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "description": "false"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "get-api-tokenResponse": {
+            "type": "object",
+            "example": {
+                "status": true,
+                "msg": "Get api token.",
+                "api_token": "PcYVAVH8hskXaqubl+tlIzvT0z84iOIa"
+            },
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": true
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Get api token"
+                },
+                "res": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        "free-slotsResponse": {
+            "type": "object",
+            "example": {
+                "status": true,
+                "msg": "Get available time slot.",
+                "res": {
+                    "1614189600": "11:30 PM",
+                    "1614191400": "12:00 AM",
+                    "1614193200": "12:30 AM",
+                    "1614195000": "01:00 AM",
+                    "1614196800": "01:30 AM",
+                    "1614198600": "02:00 AM",
+                    "1614200400": "02:30 AM",
+                    "1614202200": "03:00 AM",
+                    "1614204000": "03:30 AM",
+                    "1614205800": "04:00 AM",
+                    "1614207600": "04:30 AM",
+                    "1614209400": "05:00 AM",
+                    "1614211200": "05:30 AM",
+                    "1614213000": "06:00 AM",
+                    "1614214800": "06:30 AM",
+                    "1614216600": "07:00 AM",
+                    "1614218400": "07:30 AM"
+                }
+            },
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": true
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Get available time slot."
+                },
+                "res": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        },
+        "create-eventResponse": {
+            "type": "object",
+            "example": {
+                "status": true,
+                "msg": "Event created successfuly.",
+                "res": null
+            },
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": true
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Event created successfuly."
+                },
+                "res": {
+                    "type": "string",
+                    "properties": null
+                }
+            }
+        },
+        "get-eventsResponse": {
+            "type": "object",
+            "example": {
+                "status": true,
+                "msg": "get event list",
+                "res": [{
+                    "bookingDate": "24-02-2021 10:00 AM"
+                }]
+            },
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": true
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "get event list."
+                },
+                "res": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }
+    }
+}
