@@ -6,4 +6,4 @@ jobs:
       - image: cimg/node:16.20.2
     steps:
       - checkout
-      - run: echo "Say hello to YAML File.."
+      - run: echo "Say hello to YAML File..."
